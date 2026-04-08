@@ -1,0 +1,15 @@
+---
+alwaysApply: true
+---
+
+# nomenclatures
+- Use camelcase for simple files (like utils, etc ...)
+- Use PascalCase form components
+
+# For next js
+- If a component needs of user interaction, consider that as client component
+- Uses the server components whenever possible
+- Use TDD
+- Use the SOLID principles
+- Use the KISS (Keep it simple stuipd) method
+- For branchs, always create branch as feat/bugfix/hotfix followed the commit lint pattern

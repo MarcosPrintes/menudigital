@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+
+# Stack
+
+This project should use as frontend stack
+
+- NextJs 
+- Eslint
+- prettier
+- Tailwind for styles
+- vitest

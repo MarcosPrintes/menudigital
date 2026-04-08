@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+---
+This project is an menu where the version 1.0.0:
+- Show a list of products
+- the products contain name, image, description and price
