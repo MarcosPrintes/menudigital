@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { FormButton, FormLinkButton } from "@/src/components/form/FormButton";
+import { FormInput } from "@/src/components/form/FormInput";
 
 export const metadata = {
   title: "Register",
@@ -11,87 +12,32 @@ export default function RegisterPage() {
       <form className="w-full rounded-lg border border-zinc-200 p-6 shadow-sm">
         <h1 className="mb-6 text-2xl font-semibold">Register</h1>
 
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium" htmlFor="name">
-            Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            autoComplete="name"
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-          />
-        </div>
+        <FormInput id="name" name="name" label="Name" type="text" autoComplete="name" />
 
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium" htmlFor="phone">
-            Telefone
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="tel"
-            autoComplete="tel"
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-          />
-        </div>
+        <FormInput id="phone" name="phone" label="Telefone" type="tel" autoComplete="tel" />
 
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium" htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-          />
-        </div>
+        <FormInput id="email" name="email" label="Email" type="email" autoComplete="email" />
 
-        <div className="mb-4">
-          <label className="mb-2 block text-sm font-medium" htmlFor="password">
-            Senha
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="new-password"
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-          />
-        </div>
+        <FormInput
+          id="password"
+          name="password"
+          label="Senha"
+          type="password"
+          autoComplete="new-password"
+        />
 
-        <div>
-          <label
-            className="mb-2 block text-sm font-medium"
-            htmlFor="confirmPassword"
-          >
-            Confirmar senha
-          </label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            autoComplete="new-password"
-            className="w-full rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-          />
-        </div>
+        <FormInput
+          id="confirmPassword"
+          name="confirmPassword"
+          label="Confirmar senha"
+          type="password"
+          autoComplete="new-password"
+          containerClassName=""
+        />
 
         <div className="mt-6 flex gap-3">
-          <button
-            type="submit"
-            className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
-          >
-            Register
-          </button>
-          <Link
-            href="/"
-            className="w-full rounded-md border border-zinc-300 px-4 py-2 text-center text-sm font-medium hover:bg-zinc-100"
-          >
-            Go back
-          </Link>
+          <FormButton type="submit">Register</FormButton>
+          <FormLinkButton href="/">Go back</FormLinkButton>
         </div>
       </form>
     </main>
