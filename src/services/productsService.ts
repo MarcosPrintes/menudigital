@@ -20,6 +20,9 @@ export type ProductsError = {
 export async function getProducts(): Promise<ServiceResult<Product[], ProductsError>> {
   const response = await fetch(`${getApiUrl()}${API_ENDPOINTS.PRODUCTS}`, {
     cache: "no-store",
+    next: {
+      revalidate: 60,
+    },
     headers: {
       "Content-Type": "application/json",
     },
