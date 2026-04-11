@@ -1,0 +1,11 @@
+---
+alwaysApply: false
+---
+
+# Rules to register page validations
+
+- The name should container min 3 characters
+- email should be a valid email domain
+- senha should be greater than 6 characters
+- confirmar senha shoul match with senha
+- telefone should match a brazilian phone

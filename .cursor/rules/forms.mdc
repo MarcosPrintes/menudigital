@@ -1,0 +1,20 @@
+---
+alwaysApply: true
+---
+
+# Stack
+
+- Zod
+- React hook form
+
+Use React Hook Form with Zod for all form management and validation.
+
+# Rules
+
+- Always use the @hookform/resolvers/zod package to connect Zod schemas to useForm.
+- Infer TypeScript types directly from Zod schemas using `z.infer<typeof schema>` to ensure a single source of truth.
+- Prefer uncontrolled components with the `register` function for better performance.
+- Use the `Controller` component or `useController` hook for third-party UI components (e.g., Shadcn/UI, MUI).
+- Centralize Zod schemas in a dedicated directory (e.g., `src/lib/schemas/` or `components/schemas/`).
+- Implement custom validation (like password matching) using `.refine()` or `.superRefine()` in the Zod schema.
+- Define default values within the `useForm` hook to avoid undefined field states.
