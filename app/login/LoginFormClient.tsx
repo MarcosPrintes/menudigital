@@ -1,74 +1,53 @@
 "use client";
 
+import { FormInput } from "@/src/components/form/FormInput";
 import { AuthFormActions } from "@/src/components/auth/AuthFormActions";
 import { AuthFormCard } from "@/src/components/auth/AuthFormCard";
 import { FormFeedbackMessage } from "@/src/components/auth/FormFeedbackMessage";
-import { FormInput } from "@/src/components/form/FormInput";
-import { registerSchema, type RegisterFormValues } from "@/src/lib/schemas/registerSchema";
-import { registerClient } from "@/src/services/registerService";
+import { loginSchema, type LoginFormValues } from "@/src/lib/schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { loginAction } from "./actions";
 
-export function RegisterForm() {
+export function LoginFormClient() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
     mode: "onChange",
     defaultValues: {
-      name: "",
-      phone: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (data: RegisterFormValues) => {
+  const onSubmit = async (data: LoginFormValues) => {
     setSubmitError(null);
     setSubmitSuccess(null);
 
-    const result = await registerClient(data);
-
+    const result = await loginAction(data);
     if (!result.success) {
       setSubmitError(result.error.message);
       return;
     }
 
-    setSubmitSuccess(`Client ${result.data.name} registered successfully.`);
-    reset();
+    setSubmitSuccess(`Welcome back, ${result.data.client.name}. Redirecting...`);
+    router.push("/menu");
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <AuthFormCard title="Register">
+      <AuthFormCard title="Login">
         {submitError ? <FormFeedbackMessage message={submitError} variant="error" /> : null}
 
         {submitSuccess ? <FormFeedbackMessage message={submitSuccess} variant="success" /> : null}
-
-        <FormInput
-          id="name"
-          label="Name"
-          type="text"
-          autoComplete="name"
-          error={errors.name?.message}
-          {...register("name")}
-        />
-
-        <FormInput
-          id="phone"
-          label="Telefone"
-          type="tel"
-          autoComplete="tel"
-          error={errors.phone?.message}
-          {...register("phone")}
-        />
 
         <FormInput
           id="email"
@@ -81,24 +60,15 @@ export function RegisterForm() {
 
         <FormInput
           id="password"
-          label="Senha"
+          label="Password"
           type="password"
-          autoComplete="new-password"
+          autoComplete="current-password"
+          containerClassName=""
           error={errors.password?.message}
           {...register("password")}
         />
 
-        <FormInput
-          id="confirmPassword"
-          label="Confirmar senha"
-          type="password"
-          autoComplete="new-password"
-          containerClassName=""
-          error={errors.confirmPassword?.message}
-          {...register("confirmPassword")}
-        />
-
-        <AuthFormActions submitLabel="Register" isSubmitting={isSubmitting} />
+        <AuthFormActions submitLabel="Login" isSubmitting={isSubmitting} />
       </AuthFormCard>
     </form>
   );

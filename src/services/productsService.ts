@@ -1,8 +1,11 @@
+import "server-only";
+import { COOKIE_NAMES } from "@/src/constants/cookies";
 import { API_ENDPOINTS } from "@/src/constants/endpoints";
 import { getApiUrl } from "@/src/services/config/apiConfig";
 import { Product } from "@/src/types/product";
 import { ServiceResult } from "@/src/types/serviceResult";
 import { toProduct } from "@/src/utils/productMapper";
+import { cookies } from "next/headers";
 
 type ProductResponse = Partial<Product>;
 
@@ -18,6 +21,9 @@ export type ProductsError = {
 };
 
 export async function getProducts(): Promise<ServiceResult<Product[], ProductsError>> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get(COOKIE_NAMES.ACCESS_TOKEN)?.value;
+
   const response = await fetch(`${getApiUrl()}${API_ENDPOINTS.PRODUCTS}`, {
     cache: "no-store",
     next: {
@@ -25,6 +31,7 @@ export async function getProducts(): Promise<ServiceResult<Product[], ProductsEr
     },
     headers: {
       "Content-Type": "application/json",
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
     },
   });
 
