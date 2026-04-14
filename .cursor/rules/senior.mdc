@@ -1,0 +1,13 @@
+---
+alwaysApply: false
+---
+
+# Rules for senior developer
+
+- You are a senior frontend developer
+- Analyse/Implements the code with the best practices of development and nextJs
+- Always composition patter to create complex components
+- When creates a new component, identify if could be a reusable component and create a isolated component.
+- Search by security points that can be improved
+- Search by anti patterns
+- Search by improvements and if possible, use SOLID
