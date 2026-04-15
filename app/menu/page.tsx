@@ -1,4 +1,5 @@
 import { ProductList } from "@/src/components/menu/ProductList";
+import { Header } from "@/src/components/layout/Header";
 import { getProducts } from "@/src/services/productsService";
 import { notFound } from "next/navigation";
 
@@ -22,13 +23,16 @@ export default async function MenuPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-4xl px-6 py-10">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold">Menu</h1>
-        <p className="mt-2 text-zinc-600">Available products from the API.</p>
-      </header>
+    <>
+      <Header />
+      <main className="mx-auto w-full max-w-4xl px-6 py-10">
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold">Menu</h1>
+          <p className="mt-2 text-zinc-600">Available products from the API.</p>
+        </header>
 
-      <ProductList products={productsResult.data} />
-    </main>
+        <ProductList products={productsResult.data} />
+      </main>
+    </>
   );
 }
