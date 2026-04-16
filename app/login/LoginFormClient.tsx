@@ -11,9 +11,19 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+type SubmitFeedback =
+  | {
+      variant: "error" | "success";
+      message: string;
+    }
+  | null;
+
+const AUTH_ERROR_MESSAGES: Record<string, string> = {
+  CredentialsSignin: "Invalid email or password.",
+};
+
 export function LoginFormClient() {
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [submitFeedback, setSubmitFeedback] = useState<SubmitFeedback>(null);
   const router = useRouter();
   const {
     register,
@@ -29,30 +39,51 @@ export function LoginFormClient() {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    setSubmitError(null);
-    setSubmitSuccess(null);
+    setSubmitFeedback(null);
 
-    const result = await signIn("credentials", {
-      email: data.email,
-      password: data.password,
-      redirect: false,
-    });
+    try {
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
 
-    if (result?.error) {
-      setSubmitError("Invalid email or password.");
-      return;
+      if (!result) {
+        setSubmitFeedback({
+          variant: "error",
+          message: "Unable to complete login right now. Please try again.",
+        });
+        return;
+      }
+
+      if (result.error) {
+        setSubmitFeedback({
+          variant: "error",
+          message: AUTH_ERROR_MESSAGES[result.error] ?? "Invalid email or password.",
+        });
+        return;
+      }
+
+      setSubmitFeedback({
+        variant: "success",
+        message: "Welcome back! Redirecting...",
+      });
+      router.replace("/menu");
+      router.refresh();
+    } catch {
+      setSubmitFeedback({
+        variant: "error",
+        message: "Something went wrong while logging in. Please try again.",
+      });
     }
-
-    setSubmitSuccess("Welcome back! Redirecting...");
-    router.push("/menu");
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <AuthFormCard title="Login">
-        {submitError ? <FormFeedbackMessage message={submitError} variant="error" /> : null}
-
-        {submitSuccess ? <FormFeedbackMessage message={submitSuccess} variant="success" /> : null}
+        {submitFeedback ? (
+          <FormFeedbackMessage message={submitFeedback.message} variant={submitFeedback.variant} />
+        ) : null}
 
         <FormInput
           id="email"
