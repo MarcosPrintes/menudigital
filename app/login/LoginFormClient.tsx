@@ -1,15 +1,15 @@
 "use client";
 
-import { FormInput } from "@/src/components/form/FormInput";
 import { AuthFormActions } from "@/src/components/auth/AuthFormActions";
 import { AuthFormCard } from "@/src/components/auth/AuthFormCard";
 import { FormFeedbackMessage } from "@/src/components/auth/FormFeedbackMessage";
+import { FormInput } from "@/src/components/form/FormInput";
 import { loginSchema, type LoginFormValues } from "@/src/lib/schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { loginAction } from "./actions";
 
 export function LoginFormClient() {
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -32,13 +32,18 @@ export function LoginFormClient() {
     setSubmitError(null);
     setSubmitSuccess(null);
 
-    const result = await loginAction(data);
-    if (!result.success) {
-      setSubmitError(result.error.message);
+    const result = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      setSubmitError("Invalid email or password.");
       return;
     }
 
-    setSubmitSuccess(`Welcome back, ${result.data.client.name}. Redirecting...`);
+    setSubmitSuccess("Welcome back! Redirecting...");
     router.push("/menu");
   };
 

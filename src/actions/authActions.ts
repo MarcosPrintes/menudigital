@@ -1,7 +1,7 @@
 "use server";
 
+import { auth, signOut } from "@/auth";
 import { logoutClient } from "@/src/services/logoutService";
-import { redirect } from "next/navigation";
 
 export type LogoutActionState = {
   error: string | null;
@@ -12,7 +12,8 @@ export const initialLogoutActionState: LogoutActionState = {
 };
 
 export async function logoutAction(): Promise<LogoutActionState> {
-  const result = await logoutClient();
+  const session = await auth();
+  const result = await logoutClient(session?.accessToken);
 
   if (!result.success) {
     const statusInfo = result.error.status ? ` (status ${result.error.status})` : "";
@@ -22,5 +23,8 @@ export async function logoutAction(): Promise<LogoutActionState> {
     };
   }
 
-  redirect("/");
+  await signOut({ redirectTo: "/" });
+  return {
+    error: null,
+  };
 }
