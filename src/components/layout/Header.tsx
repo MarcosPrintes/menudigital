@@ -1,11 +1,15 @@
 "use client";
 
-import {
-  initialLogoutActionState,
-  logoutAction,
-  type LogoutActionState,
-} from "@/src/actions/authActions";
+import { logoutAction } from "@/src/actions/authActions";
 import { useActionState } from "react";
+
+type LogoutActionState = {
+  error: string | null;
+};
+
+const initialLogoutActionState: LogoutActionState = {
+  error: null,
+};
 
 export function Header() {
   const [state, formAction, isPending] = useActionState<LogoutActionState, FormData>(
