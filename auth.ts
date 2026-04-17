@@ -68,7 +68,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     authorized({ auth: session, request: { nextUrl } }) {
       const isLoggedIn = Boolean(session?.user);
-      const isProtectedRoute = nextUrl.pathname.startsWith("/menu");
+      const isProtectedRoute =
+        nextUrl.pathname.startsWith("/menu") || nextUrl.pathname.startsWith("/admin");
       const isLoginRoute = nextUrl.pathname.startsWith("/login");
 
       if (isProtectedRoute) {
