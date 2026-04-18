@@ -1,3 +1,5 @@
+import { RegisterProductForm } from "./RegisterProductForm";
+
 export const metadata = {
   title: "Admin",
   description: "Administrative area",
@@ -12,6 +14,8 @@ export default function AdminPage() {
           You are authenticated and can access the administrative area.
         </p>
       </header>
+
+      <RegisterProductForm />
     </main>
   );
 }
