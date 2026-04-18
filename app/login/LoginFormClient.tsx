@@ -11,12 +11,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-type SubmitFeedback =
-  | {
-      variant: "error" | "success";
-      message: string;
-    }
-  | null;
+type SubmitFeedback = {
+  variant: "error" | "success";
+  message: string;
+} | null;
 
 const AUTH_ERROR_MESSAGES: Record<string, string> = {
   CredentialsSignin: "Invalid email or password.",

@@ -8,7 +8,7 @@ type ProtectedLayoutProps = {
 
 export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
   const session = await auth();
-  const isLoggedIn = Boolean(session?.user);
+  const isLoggedIn = Boolean(session?.user) && !session?.error;
 
   return (
     <>

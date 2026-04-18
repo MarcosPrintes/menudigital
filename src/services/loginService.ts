@@ -18,6 +18,7 @@ type LoginSuccessApiResponse = {
   data?: {
     client?: LoggedClient;
     accessToken?: string;
+    refreshToken?: string;
   };
 };
 
@@ -29,6 +30,7 @@ type LoginErrorApiResponse = {
 export type LoginServiceSuccess = {
   client: LoggedClient;
   accessToken: string;
+  refreshToken: string;
 };
 
 export type LoginServiceError = {
@@ -135,8 +137,15 @@ export async function loginClient(
   const jsonParsed = parsedResponse as LoginSuccessApiResponse | null;
   const client = jsonParsed?.data?.client;
   const accessToken = jsonParsed?.data?.accessToken;
+  const refreshToken = jsonParsed?.data?.refreshToken;
 
-  if (!isLoggedClient(client) || typeof accessToken !== "string" || accessToken.length === 0) {
+  if (
+    !isLoggedClient(client) ||
+    typeof accessToken !== "string" ||
+    accessToken.length === 0 ||
+    typeof refreshToken !== "string" ||
+    refreshToken.length === 0
+  ) {
     return {
       success: false,
       error: {
@@ -150,6 +159,7 @@ export async function loginClient(
     data: {
       client,
       accessToken,
+      refreshToken,
     },
   };
 }
