@@ -11,3 +11,5 @@ alwaysApply: false
 - Search by security points that can be improved
 - Search by anti patterns
 - Search by improvements and if possible, use SOLID
+- Use TDD
+- Prevents and avoids false positives in tests
