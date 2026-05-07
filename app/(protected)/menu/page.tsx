@@ -1,6 +1,6 @@
+import { deleteProductAction } from "@/src/actions/deleteProductActions";
 import { ProductList } from "@/src/components/menu/ProductList";
 import { getProducts } from "@/src/services/productsService";
-import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "Menu",
@@ -17,10 +17,6 @@ export default async function MenuPage() {
     throw new Error(`${productsResult.error.message}${statusInfo}`);
   }
 
-  if (productsResult.data.length === 0) {
-    notFound();
-  }
-
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-10">
       <header className="mb-8">
@@ -28,7 +24,7 @@ export default async function MenuPage() {
         <p className="mt-2 text-zinc-600">Available products from the API.</p>
       </header>
 
-      <ProductList products={productsResult.data} />
+      <ProductList products={productsResult.data} onDeleteProduct={deleteProductAction} />
     </main>
   );
 }
